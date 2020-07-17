@@ -1,0 +1,1 @@
+{"ast":null,"code":"function generatePosts(data) {\n  return data ? data.documents.map(function (post) {\n    return {\n      pid: post.name.split(\"/\").pop(),\n      title: post.fields.title.stringValue,\n      blurb: post.fields.blurb.stringValue\n    };\n  }) : [];\n}\n\nexport { generatePosts };","map":null,"metadata":{},"sourceType":"module"}
