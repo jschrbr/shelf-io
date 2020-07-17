@@ -1,3 +1,6 @@
 .env
-node_modules/
+**/node_modules/
+**/config.ts
+**/firebase-debug.log
+functions/lib/**
 extra/
