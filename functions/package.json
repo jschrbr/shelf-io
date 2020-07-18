@@ -3,10 +3,10 @@
   "scripts": {
     "lint": "tslint --project tsconfig.json",
     "build": "tsc",
-    "serve": "npm run build && firebase emulators:start --only functions",
+    "serve": "npm run build && firebase emulators:start --only functions:graphql,functions:api",
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
-    "deploy": "firebase deploy --only functions:nextjs-server",
+    "deploy": "firebase deploy --only functions:graphql,functions:api",
     "logs": "firebase functions:log"
   },
   "engines": {

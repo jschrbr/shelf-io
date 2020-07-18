@@ -1,70 +1,44 @@
 import Head from "next/head";
 import Link from "next/link";
 import useSWR from "swr";
-
-import { generatePosts } from "../helpers/utils";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import { generateParts } from "../helpers/utils";
+import fetch from "isomorphic-fetch";
 
 // Only fetchg the title and blurb.
-const FirestoreBlogPostsURL = `https://firestore.googleapis.com/v1/projects/${process.env.FIREBASE_PROJECT_ID}/databases/(default)/documents/posts?mask.fieldPaths=blurb&mask.fieldPaths=title`;
+const FirestoreBlogPostsURL = `https://firestore.googleapis.com/v1/projects/${process.env.FIREBASE_PROJECT_ID}/databases/(default)/documents/parts`;
 const fetcher = (url) => fetch(url).then((r) => r.json());
 
 function Home() {
-  // const { data, error } = useSWR(FirestoreBlogPostsURL, fetcher);
-  // const posts = generatePosts(data);
-  const error = {};
-  const data = [];
-  const posts = [];
+  const { data, error } = useSWR(FirestoreBlogPostsURL, fetcher);
+  const parts = generateParts(data);
 
   return (
     <div className="container">
       <Head>
-        <title>Next.js on Firebase Hosting</title>
+        <title>Shelf-io</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
-        <Header />
-        <h1 className="title">
-          Welcome to{" "}
-          <a href="https://github.com/jthegedus/firebase-gcp-examples">
-            Next.js on Firebase
-          </a>
-        </h1>
-
-        <ul>
-          <li>Static page with client-side data fetching</li>
-          <li>
-            <a href="https://swr.now.sh/" target="_blank">
-              SWR
-            </a>{" "}
-            is used to retrieve data from Firestore
-          </li>
-        </ul>
-
-        <p className="description">An index page for a personal site</p>
-        <p className="description">Some Blog Posts</p>
         <div className="grid">
           {error && <div>Failed to load</div>}
-          {!data && <div>Loading Blog Posts...</div>}
+          {!data && <div>Loading Stock Items...</div>}
           {data &&
-            posts.map((post) => (
+            parts.map((part) => (
               <Link
-                href="blog/[pid]"
-                as={`/blog/${post.pid}`}
-                key={`${post.pid}`}
+                href="stock/[id]"
+                as={`/stock/${part.id}`}
+                key={`${part.id}`}
+                prefetch={true}
               >
                 <a className="card">
-                  <h3>{post.title} &rarr;</h3>
-                  <p>{post.blurb}</p>
+                  <h3>Name: {part.name} &rarr;</h3>
+                  <p>Quantity: {part.quantity}</p>
                 </a>
               </Link>
             ))}
         </div>
       </main>
-
-      <Footer />
 
       <style jsx>{`
         .container {

@@ -1,22 +1,63 @@
-import Head from 'next/head';
+import Head from "next/head";
+import { useRouter } from "next/router";
+import Error from "next/error";
 
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
+const FirestoreBlogPostsURL = `https://firestore.googleapis.com/v1/projects/${process.env.FIREBASE_PROJECT_ID}/databases/(default)/documents/parts`;
 
-function NotAPost() {
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
+}
+
+export async function getStaticProps({ params }) {
+  try {
+    const res = await fetch(`${FirestoreBlogPostsURL}/${params.id}`);
+    const part = await res.json();
+    return {
+      props: {
+        part: {
+          id: params.id,
+          name: part.fields.name.stringValue,
+          quantity: part.fields.quantity.integerValue,
+        },
+      },
+    };
+  } catch (error) {
+    console.error(error);
+    return { props: {} };
+  }
+}
+
+function Part({ part }) {
+  const router = useRouter();
+
+  if (!router.isFallback && !part) {
+    return <Error statusCode={404} title="No Blog part with the provided ID" />;
+  }
+
+  if (router.isFallback) {
+    return (
+      <div className="container">
+        <main>
+          <div>Loading...</div>
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div className="container">
       <Head>
-        <title>Next.js on Firebase Hosting</title>
+        <title>{part.name}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
-        <Header />
-        <h1 className="title">This isn't a blog post</h1>
+        <h1 className="title">{part.name}</h1>
+        <p className="description">{part.quantity}</p>
       </main>
-
-      <Footer />
 
       <style jsx>{`
         .container {
@@ -38,7 +79,7 @@ function NotAPost() {
         }
 
         a {
-          color: #0070f3;
+          color: inherit;
           text-decoration: none;
         }
 
@@ -148,4 +189,4 @@ function NotAPost() {
   );
 }
 
-export default NotAPost;
+export default Part;

@@ -41,7 +41,8 @@
           "source": "**",
           "function": "nextjs-server"
         }
-      ]
+      ],
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
     }
   ]
 }

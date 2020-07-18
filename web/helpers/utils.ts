@@ -1,13 +1,13 @@
-function generatePosts(data) {
+function generateParts(data) {
 	return data
-		? data.documents.map((post) => {
-				return {
-					pid: post.name.split("/").pop(),
-					title: post.fields.title.stringValue,
-					blurb: post.fields.blurb.stringValue,
-				};
-		  })
+		? data.documents.map((part) => {
+			return {
+				id: part.name.split("/").pop(),
+				name: part.fields.name.stringValue,
+				quantity: part.fields.quantity.integerValue,
+			};
+		})
 		: [];
 }
 
-export { generatePosts };
+export { generateParts };
