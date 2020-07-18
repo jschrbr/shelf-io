@@ -4,3 +4,5 @@
 **/firebase-debug.log
 functions/lib/**
 extra/
+web/nextjs/
+

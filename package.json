@@ -5,9 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "yarn deploy:client && cd web && yarn deploy:server",
-    "deploy:server": "firebase deploy --only functions:graphql,functions:api",
-    "deploy:client": "firebase deploy --only functions:nextjs-server"
+    "deploy": "yarn deploy:server && cd web && yarn deploy",
+    "deploy:server": "firebase deploy --only functions:graphql,functions:api"
   },
   "keywords": [],
   "author": "",
