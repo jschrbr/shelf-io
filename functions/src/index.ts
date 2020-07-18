@@ -3,7 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import testRoutes from './controller/routes/routes';
 
-import graphQL from './graphql/server';
+import graphQL from './graphql';
 
 const server = graphQL();
 

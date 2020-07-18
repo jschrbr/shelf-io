@@ -132,6 +132,7 @@ export const addParts = async (req: any, res: any) => {
         const { name, quantity } = req.body
 
         const newPart = {
+            id: "",
             name,
             quantity: parseFloat(quantity),
             createdAt: new Date().toISOString(),
@@ -140,6 +141,8 @@ export const addParts = async (req: any, res: any) => {
 
         const doc = await db.collection('parts').add(newPart);
         const { id } = doc
+        newPart.id = id
+        await db.doc(`/parts/${id}`).update(newPart)
         return res.status(201).json({ id });
     } catch (err) {
         console.error(err);
