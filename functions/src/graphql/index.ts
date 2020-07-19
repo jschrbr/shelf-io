@@ -4,6 +4,8 @@ import express from 'express';
 import schema from './schema';
 import resolvers from './resolvers';
 
+const dev = process.env.NODE_ENV !== "production";
+
 function gqlServer() {
     const app = express();
 
@@ -11,8 +13,8 @@ function gqlServer() {
         typeDefs: schema,
         resolvers,
         // Enable graphiql gui
-        introspection: true,
-        playground: true
+        introspection: dev,
+        playground: dev
     });
 
     apolloServer.applyMiddleware({ app, path: '/', cors: true });

@@ -1,5 +1,5 @@
 import { Date } from "./schema"
-import { addPart, editPart, removePart, partChanged } from "./functions/mutations"
+import { addPart, editPart, removePart } from "./functions/mutations"
 import { getPart, getParts } from "./functions/queries"
 
 
@@ -12,9 +12,6 @@ const resolverFunctions = {
         addPart,
         editPart,
         removePart,
-    },
-    Subscription: {
-        ...partChanged()
     },
     Date,
 };

@@ -1,0 +1,18 @@
+{
+  "name": "pyboard",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "nodemon -w ./flash/ -e \"py\" -x \"./utils/on-change.sh\"",
+    "repl": "rshell --buffer-size=30 -p /dev/ttyUSB0 -f ./utils/repl.sh ",
+    "flash": "./utils/on-change.sh"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}

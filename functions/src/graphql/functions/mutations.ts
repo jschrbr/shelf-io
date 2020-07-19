@@ -1,10 +1,5 @@
 import { db } from '../../middleware/admin'
-import { PubSub } from 'graphql-subscriptions'
 import { addInput, editInput, removeInput } from '../../utils/interfaces'
-
-const pubsub = new PubSub();
-
-const PART_CHANGE = 'PART_CHANGE';
 
 export const addPart = async (_: any, { input: { name, quantity } }: { input: addInput }) => {
     try {
@@ -25,14 +20,6 @@ export const addPart = async (_: any, { input: { name, quantity } }: { input: ad
     } catch (err) {
         console.error(err)
         return err
-    }
-}
-
-export const partChanged = () => {
-    return {
-        partChanged: {
-            subscribe: () => pubsub.asyncIterator([PART_CHANGE])
-        }
     }
 }
 

@@ -1,0 +1,15 @@
+{
+    "name": "boilerplate",
+    "stubs": {
+        "esp32_LoBo-3.2.24": "1.3.2"
+    },
+    "dev-packages": {
+        "micropy-cli": "*",
+        "rshell": "*"
+    },
+    "packages": {},
+    "config": {
+        "vscode": true,
+        "pylint": true
+    }
+}

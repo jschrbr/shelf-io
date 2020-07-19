@@ -21,7 +21,7 @@ export const Date: any = new GraphQLScalarType({
 const schema = gql`
   scalar Date
     type Part {
-      id: ID!
+      id: String!
       name: String
       quantity: Int
       createdAt: Date
@@ -32,23 +32,20 @@ const schema = gql`
       quantity: Int
     }
     input PartEdit {
-      id: ID!
+      id: String!
       quantity: Int
     }
     type ResolveType {
       done: Boolean
     }
     type Query {
-      getPart(id: Int): Part
+      getPart(id: String): Part
       getParts: [Part!]!
     }
     type Mutation {
       addPart(input: PartAdd!): ResolveType!
       editPart(input: PartEdit!): ResolveType!
       removePart(input: PartEdit!): ResolveType!
-    }
-    type Subscription {
-      partChanged: Part
     }
 `;
 

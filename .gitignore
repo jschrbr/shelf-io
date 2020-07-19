@@ -9,5 +9,4 @@ web/.next/
 web/public/sw.js
 web/public/sw.js.map
 web/public/workbox-*
-
-
+IoT/flash/auth.py

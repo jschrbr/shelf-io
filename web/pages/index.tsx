@@ -1,113 +1,44 @@
+import React, { useEffect, useState, Fragment } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import useSWR from "swr";
-import { generateParts } from "../helpers/utils";
-import fetch from "isomorphic-fetch";
+import * as FirestoreService from "../services/admin";
 
-// Only fetchg the title and blurb.
-const FirestoreBlogPostsURL = `https://firestore.googleapis.com/v1/projects/${process.env.FIREBASE_PROJECT_ID}/databases/(default)/documents/parts`;
-const fetcher = (url) => fetch(url).then((r) => r.json());
+import ErrorMessage from "../components/ErrorMessage";
 
 function Home() {
-  const { data, error } = useSWR(FirestoreBlogPostsURL, fetcher);
-  const parts = generateParts(data);
+  const [groceryItems, setGroceryItems] = useState([]);
+  const [errors, setError] = useState("");
 
-  return (
-    <div className="container">
-      <Head>
-        <title>Shelf-io</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+  useEffect(() => {
+    const unsubscribe = FirestoreService.streamParts({
+      next: (querySnapshot) => {
+        const updatedGroceryItems = querySnapshot.docs.map((docSnapshot) =>
+          docSnapshot.data()
+        );
+        setGroceryItems(updatedGroceryItems);
+      },
+      error: () => setError("grocery-list-item-get-fail"),
+    });
+    return unsubscribe;
+  }, ["parts", setGroceryItems]);
 
-      <main>
-        <div className="grid">
-          {error && <div>Failed to load</div>}
-          {!data && <div>Loading Stock Items...</div>}
-          {data &&
-            parts.map((part) => (
-              <Link
-                href="stock/[id]"
-                as={`/stock/${part.id}`}
-                key={`${part.id}`}
-                prefetch={true}
-              >
-                <a className="card">
-                  <h3>Name: {part.name} &rarr;</h3>
-                  <p>Quantity: {part.quantity}</p>
-                </a>
-              </Link>
-            ))}
-        </div>
-      </main>
-
+  const groceryItemElements = groceryItems.map((part) => (
+    <Fragment>
+      <Link
+        href="stock/[id]"
+        as={`/stock/${part.id}`}
+        key={`${part.id}`}
+        prefetch={true}
+      >
+        <a className="card">
+          <h3>Name: {part.name} &rarr;</h3>
+          <p>Quantity: {part.quantity}</p>
+        </a>
+      </Link>
       <style jsx>{`
-        .container {
-          min-height: 100vh;
-          padding: 0 0.5rem;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-
-        main {
-          padding: 5rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-
         a {
           color: #0070f3;
           text-decoration: none;
-        }
-
-        .title a {
-          color: #0070f3;
-          text-decoration: none;
-        }
-
-        .title a:hover,
-        .title a:focus,
-        .title a:active {
-          text-decoration: underline;
-        }
-
-        .title {
-          margin: 0;
-          line-height: 1.15;
-          font-size: 4rem;
-        }
-
-        .title,
-        .description {
-          text-align: center;
-        }
-
-        .description {
-          line-height: 1.5;
-          font-size: 1.5rem;
-        }
-
-        code {
-          background: #fafafa;
-          border-radius: 5px;
-          padding: 0.25rem;
-          font-size: 1rem;
-          font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-            DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-        }
-
-        .grid {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-wrap: wrap;
-
-          max-width: 800px;
-          margin-top: 3rem;
         }
 
         .card {
@@ -139,31 +70,58 @@ function Home() {
           font-size: 1.25rem;
           line-height: 1.5;
         }
+      `}</style>
+    </Fragment>
+  ));
+
+  return (
+    <div className="container">
+      <Head>
+        <title>Shelf-io</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <main>
+        <div className="grid">
+          <ErrorMessage errorCode={errors}></ErrorMessage>
+          {groceryItemElements}
+        </div>
+      </main>
+
+      <style jsx>{`
+        .container {
+          min-height: 100vh;
+          padding: 0 0.5rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+
+        main {
+          padding: 5rem 0;
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .grid {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-wrap: wrap;
+
+          max-width: 800px;
+          margin-top: 3rem;
+        }
 
         @media (max-width: 600px) {
           .grid {
             width: 100%;
             flex-direction: column;
           }
-        }
-      `}</style>
-
-      <style jsx global>{`
-        main {
-          max-width: 800px;
-          margin: 20px auto 0px auto;
-        }
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
-        }
-
-        * {
-          box-sizing: border-box;
         }
       `}</style>
     </div>

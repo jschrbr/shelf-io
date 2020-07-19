@@ -24,11 +24,13 @@ export default function MyApp(props: any) {
       <Head>
         <title>Shelf-io</title>
       </Head>
+
       <MuiThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         {/* <NavBar headline={ "Shelf-io" } /> */}
         <Component {...pageProps} />
+
         <style jsx global>{`
           @font-face {
             font-family: "Roboto";
