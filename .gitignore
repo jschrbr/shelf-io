@@ -4,9 +4,10 @@
 **/firebase-debug.log
 functions/lib/**
 extra/
-web/nextjs/
+web/nextjs/*
 web/.next/
 web/public/sw.js
 web/public/sw.js.map
 web/public/workbox-*
 IoT/flash/auth.py
+web./firebas/
