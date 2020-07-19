@@ -13,8 +13,8 @@ function gqlServer() {
         typeDefs: schema,
         resolvers,
         // Enable graphiql gui
-        introspection: dev,
-        playground: dev
+        introspection: !dev,
+        playground: !dev
     });
 
     apolloServer.applyMiddleware({ app, path: '/', cors: true });

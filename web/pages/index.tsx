@@ -2,8 +2,16 @@ import React, { useEffect, useState, Fragment } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import * as FirestoreService from "../services/admin";
+import Card from "@material-ui/core/Card";
+import Grid from "@material-ui/core/Grid";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import Typography from "@material-ui/core/Typography";
 
 import ErrorMessage from "../components/ErrorMessage";
+import Dial from "../components/Dial";
+
+import { CardStyle, HomeStyle } from "../helpers/theme";
 
 function Home() {
   const [groceryItems, setGroceryItems] = useState([]);
@@ -23,54 +31,21 @@ function Home() {
   }, ["parts", setGroceryItems]);
 
   const groceryItemElements = groceryItems.map((part) => (
-    <Fragment>
-      <Link
-        href="stock/[id]"
-        as={`/stock/${part.id}`}
-        key={`${part.id}`}
-        prefetch={true}
-      >
-        <a className="card">
-          <h3>Name: {part.name} &rarr;</h3>
-          <p>Quantity: {part.quantity}</p>
-        </a>
-      </Link>
-      <style jsx>{`
-        a {
-          color: #0070f3;
-          text-decoration: none;
-        }
+    <Fragment key={`${part.id}`}>
+      <Grid item xs={6}>
+        <Card elevation={6}>
+          <CardContent>
+            <Link href="stock/[id]" as={`/stock/${part.id}`} prefetch={true}>
+              <a>
+                <h3>Name: {part.name}</h3>
+                <p>Quantity: {part.quantity}</p>
+              </a>
+            </Link>
+          </CardContent>
+        </Card>
+      </Grid>
 
-        .card {
-          margin: 1rem;
-          flex-basis: 45%;
-          padding: 1.5rem;
-          text-align: left;
-          color: inherit;
-          text-decoration: none;
-          border: 1px solid #eaeaea;
-          border-radius: 10px;
-          transition: color 0.15s ease, border-color 0.15s ease;
-        }
-
-        .card:hover,
-        .card:focus,
-        .card:active {
-          color: #0070f3;
-          border-color: #0070f3;
-        }
-
-        .card h3 {
-          margin: 0 0 1rem 0;
-          font-size: 1.5rem;
-        }
-
-        .card p {
-          margin: 0;
-          font-size: 1.25rem;
-          line-height: 1.5;
-        }
-      `}</style>
+      <CardStyle />
     </Fragment>
   ));
 
@@ -80,50 +55,16 @@ function Home() {
         <title>Shelf-io</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <main>
-        <div className="grid">
+        <Grid container spacing={2}>
           <ErrorMessage errorCode={errors}></ErrorMessage>
+
           {groceryItemElements}
-        </div>
+        </Grid>
       </main>
+      <Dial />
 
-      <style jsx>{`
-        .container {
-          min-height: 100vh;
-          padding: 0 0.5rem;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-
-        main {
-          padding: 5rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-
-        .grid {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-wrap: wrap;
-
-          max-width: 800px;
-          margin-top: 3rem;
-        }
-
-        @media (max-width: 600px) {
-          .grid {
-            width: 100%;
-            flex-direction: column;
-          }
-        }
-      `}</style>
+      <HomeStyle />
     </div>
   );
 }
