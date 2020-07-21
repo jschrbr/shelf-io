@@ -1,17 +1,23 @@
 import * as functions from 'firebase-functions';
-import express from 'express';
-import cors from 'cors';
-import testRoutes from './controller/routes/routes';
+import { db } from "./middleware/admin"
 
 import graphQL from './graphql';
 
 const server = graphQL();
 
-const app = express()
 
-app.use(cors())
-
-app.use(testRoutes)
-
-exports.api = functions.https.onRequest(app);
 exports.graphql = functions.https.onRequest(server)
+
+exports.partAdjustment = functions.firestore.document('/parts/{id}').onWrite(
+    async (change: any, context) => {
+        const { id } = context.params
+        const { quantity, updatedAt } = change.after.data()
+        if (change.after.data().id !== id) {
+            await db.doc(`/parts/${id}`).update({ id })
+            await db.doc(`/parts/${id}`).collection('history').add({ quantity, updatedAt })
+        }
+        else if (change.before.data().quantity !== quantity) {
+            await db.doc(`/parts/${id}`).collection('history').add({ quantity, updatedAt })
+        }
+    }
+)

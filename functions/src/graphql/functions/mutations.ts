@@ -1,5 +1,5 @@
 import { db } from '../../middleware/admin'
-import { addInput, editInput, removeInput } from '../../utils/interfaces'
+import { addInput, editInput } from '../../utils/interfaces'
 
 export const addPart = async (_: any, { input: { name, quantity } }: { input: addInput }) => {
     try {
@@ -30,18 +30,6 @@ export const editPart = async (_: any, { input: { id, quantity } }: { input: edi
             quantity
         }
         await db.doc(`/parts/${id}`).update(countPart)
-        return {
-            done: true,
-        };
-    } catch (err) {
-        console.error(err)
-        return err
-    }
-}
-
-export const removePart = async (_: any, { input: { id } }: { input: removeInput }) => {
-    try {
-        await db.doc(`/parts/${id}`).delete()
         return {
             done: true,
         };

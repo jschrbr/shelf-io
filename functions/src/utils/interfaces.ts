@@ -19,7 +19,3 @@ export interface editInput {
     id: string,
     quantity: number
 }
-
-export interface removeInput {
-    id: string,
-}

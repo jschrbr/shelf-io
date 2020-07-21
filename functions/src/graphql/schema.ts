@@ -45,7 +45,6 @@ const schema = gql`
     type Mutation {
       addPart(input: PartAdd!): ResolveType!
       editPart(input: PartEdit!): ResolveType!
-      removePart(input: PartEdit!): ResolveType!
     }
 `;
 

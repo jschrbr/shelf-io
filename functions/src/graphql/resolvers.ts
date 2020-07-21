@@ -1,5 +1,5 @@
 import { Date } from "./schema"
-import { addPart, editPart, removePart } from "./functions/mutations"
+import { addPart, editPart } from "./functions/mutations"
 import { getPart, getParts } from "./functions/queries"
 
 
@@ -11,7 +11,6 @@ const resolverFunctions = {
     Mutation: {
         addPart,
         editPart,
-        removePart,
     },
     Date,
 };
