@@ -24,12 +24,9 @@ prev_val = getCount()
 
 while True:
     val = getCount()
-    lcd.text(lcd.CENTER, 0, val)
     if (val != prev_val):
-        time.sleep(1.2)
-        if (val != prev_val):
-            prev_val = val
-            api.updateParts(partId, val)
-            views.get_partBtn()
+        prev_val = val
+        api.updateParts(partId, val)
+        views.get_partBtn()
 
-    time.sleep(2)
+    time.sleep(0.5)

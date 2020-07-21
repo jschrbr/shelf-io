@@ -21,7 +21,7 @@ def get_partBtn():
     part = part['data']['getPart']
     lcd.clear()
     partCount = part['quantity']
-    message = "{}-off {}".format(part['quantity'], part['name'])
+    message = "{}x {}".format(part['quantity'], part['name'])
     lcd.text(lcd.CENTER, lcd.CENTER, message)
     lcd.text(lcd.CENTER, lcd.BOTTOM, "Hold to refresh")
     return part['id']
