@@ -9,3 +9,4 @@ web/public/sw.js.map
 web/public/workbox-*
 IoT/flash/auth.py
 web/.firebase
+functions/lib/
