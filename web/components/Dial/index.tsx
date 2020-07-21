@@ -2,14 +2,12 @@ import React, { Fragment } from "react";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import SpeedDial from "@material-ui/lab/SpeedDial";
 import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
-import CloseIcon from "@material-ui/icons/Close";
 import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import MenuIcon from "@material-ui/icons/Menu";
 
 import AddDialog from "../AddDialog";
 import EditDialog from "../EditDialog";
-import DeleteDialog from "../DeleteDialog";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -22,7 +20,6 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const actions = [
-  { icon: <CloseIcon />, name: "Delete" },
   { icon: <EditIcon />, name: "Edit" },
   { icon: <AddIcon />, name: "Add" },
 ];
@@ -32,7 +29,6 @@ export default function SpeedDialTooltipOpen(props: any) {
   const [open, setOpen] = React.useState(false);
   const [openAdd, addOpen] = React.useState(false);
   const [openEdit, editOpen] = React.useState(false);
-  const [openDelete, deleteOpen] = React.useState(false);
 
   const handleOpen = () => {
     setOpen(true);
@@ -48,9 +44,6 @@ export default function SpeedDialTooltipOpen(props: any) {
   const editClose = () => {
     editOpen(false);
   };
-  const deleteClose = () => {
-    deleteOpen(false);
-  };
 
   const handleDial = (e: any, operation: any) => {
     console.log(operation);
@@ -60,9 +53,6 @@ export default function SpeedDialTooltipOpen(props: any) {
       }
       case "Edit": {
         return editOpen(true);
-      }
-      case "Delete": {
-        return deleteOpen(true);
       }
       default: {
         break;
@@ -74,7 +64,6 @@ export default function SpeedDialTooltipOpen(props: any) {
     <Fragment>
       <AddDialog open={openAdd} onClose={addClose} />
       <EditDialog open={openEdit} onClose={editClose} />
-      <DeleteDialog open={openDelete} onClose={deleteClose} />
       <SpeedDial
         ariaLabel="SpeedDial tooltip example"
         className={classes.speedDial}

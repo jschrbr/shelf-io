@@ -17,6 +17,23 @@ export const dialStyles = makeStyles((theme: Theme) =>
   })
 );
 
+export const dialogStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      height: 200,
+    },
+    rootEdit: {
+      height: 320,
+    },
+    flex: {
+      flexGrow: 1,
+    },
+    button: {
+      padding: 24,
+    },
+  })
+);
+
 export function CardStyle() {
   return (
     <style>
