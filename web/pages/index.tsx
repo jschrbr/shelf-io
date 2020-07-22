@@ -28,7 +28,7 @@ function Home() {
         setLoading(false);
         setParts(updatedParts);
       },
-      error: () => setError("grocery-list-item-get-fail"),
+      error: () => setError("item-get-fail"),
     });
     return unsubscribe;
   }, ["parts", setParts]);

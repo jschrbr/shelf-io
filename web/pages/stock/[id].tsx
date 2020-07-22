@@ -2,7 +2,6 @@ import { useState, useEffect, Fragment } from "react";
 import * as FirestoreService from "../../middleware/admin";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { scaleLinear } from "d3-scale";
 
 import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
@@ -74,7 +73,7 @@ function Part({ id }) {
         setParts(updatedPart);
         setLoading(false);
       },
-      error: () => setError("grocery-list-item-get-fail"),
+      error: () => setError("item-get-fail"),
     });
     return unsubscribe;
   }, ["part", setParts]);
@@ -91,7 +90,7 @@ function Part({ id }) {
         setHistory(updatedHistory);
         setLoadHistory(false);
       },
-      error: () => setError("grocery-list-item-get-fail"),
+      error: () => setError("item-get-fail"),
     });
     return unsubscribe;
   }, [limit, id, setHistory]);
@@ -115,37 +114,39 @@ function Part({ id }) {
                       {loading ? <Skeleton /> : `Quantity: ${part.quantity}`}
                     </h2>
                   </Grid>
-                  {loadHistory ? (
-                    <Fragment>
-                      <Grid container justify="center">
-                        <Typography variant="h3">
-                          <Skeleton width={200} />
-                        </Typography>
-                      </Grid>
-                      <Skeleton variant="rect" height={475} />
-                    </Fragment>
-                  ) : (
-                    <Chart data={history}>
-                      <ArgumentAxis tickFormat={format} />
-                      <ValueAxis />
-                      <LineSeries
-                        name={part.name}
-                        valueField="quantity"
-                        argumentField="updatedAt"
-                        seriesComponent={(props) => (
-                          <LineSeries.Path
-                            {...props}
-                            path={line()
-                              .x(({ arg }) => arg)
-                              .y(({ val }) => val)
-                              .curve(curveStepBefore)}
-                          />
-                        )}
-                      />
-                      <Title text={part.name} />
-                      <Animation />
-                    </Chart>
-                  )}
+                  {loadHistory
+                    ? (
+                      <Fragment>
+                        <Grid container justify="center">
+                          <Typography variant="h3">
+                            <Skeleton width={200} />
+                          </Typography>
+                        </Grid>
+                        <Skeleton variant="rect" height={475} />
+                      </Fragment>
+                    )
+                    : (
+                      <Chart data={history}>
+                        <ArgumentAxis tickFormat={format} />
+                        <ValueAxis />
+                        <LineSeries
+                          name={part.name}
+                          valueField="quantity"
+                          argumentField="updatedAt"
+                          seriesComponent={(props) => (
+                            <LineSeries.Path
+                              {...props}
+                              path={line()
+                                .x(({ arg }) => arg)
+                                .y(({ val }) => val)
+                                .curve(curveStepBefore)}
+                            />
+                          )}
+                        />
+                        <Title text={part.name} />
+                        <Animation />
+                      </Chart>
+                    )}
                 </Container>
               </CardContent>
               <CardActions>

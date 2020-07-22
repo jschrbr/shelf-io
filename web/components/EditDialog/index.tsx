@@ -56,7 +56,7 @@ function EditDialog(props: SimpleDialogProps) {
         setLoading(false);
         setParts(updatedParts);
       },
-      error: () => setError("grocery-list-item-get-fail"),
+      error: () => setError("item-get-fail"),
     });
     return unsubscribe;
   }, ["parts", setParts]);
@@ -136,8 +136,7 @@ function EditDialog(props: SimpleDialogProps) {
                       }}
                       onChange={autoChange}
                       getOptionSelected={(option, value) =>
-                        option.name === value.name
-                      }
+                        option.name === value.name}
                       getOptionLabel={(option) => option.name}
                       options={parts}
                       loading={loadingAuto}
@@ -151,9 +150,14 @@ function EditDialog(props: SimpleDialogProps) {
                             ...params.InputProps,
                             endAdornment: (
                               <Fragment>
-                                {loadingAuto ? (
-                                  <CircularProgress color="inherit" size={20} />
-                                ) : null}
+                                {loadingAuto
+                                  ? (
+                                    <CircularProgress
+                                      color="inherit"
+                                      size={20}
+                                    />
+                                  )
+                                  : null}
                                 {params.InputProps.endAdornment}
                               </Fragment>
                             ),
