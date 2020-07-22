@@ -55,6 +55,20 @@ export const HomeStyle = () => {
           background-color: rgb(235, 235, 235);
         }
 
+        .load-scroll {
+          padding-top: 24px
+        }
+
+        .infinite-scroll {
+          min-width: 100vw;
+          min-height: 100vh;
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+
         .container {
           min-height: 100vh;
           padding: 0 0.5rem;

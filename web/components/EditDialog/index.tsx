@@ -48,7 +48,7 @@ function EditDialog(props: SimpleDialogProps) {
   const [newQuantity, setNewQuantity] = useState(0);
 
   useEffect(() => {
-    const unsubscribe = FirestoreService.streamParts({
+    const unsubscribe = FirestoreService.streamParts(0, {
       next: (querySnapshot) => {
         const updatedParts = querySnapshot.docs.map((docSnapshot) =>
           docSnapshot.data()

@@ -25,7 +25,7 @@ import {
 } from "@devexpress/dx-react-chart-material-ui";
 
 import { Animation } from "@devexpress/dx-react-chart";
-import { line, curveStepAfter } from "d3-shape";
+import { line, curveStepBefore } from "d3-shape";
 
 import ErrorMessage from "../../components/ErrorMessage";
 import { CardActions } from "@material-ui/core";
@@ -138,7 +138,7 @@ function Part({ id }) {
                             path={line()
                               .x(({ arg }) => arg)
                               .y(({ val }) => val)
-                              .curve(curveStepAfter)}
+                              .curve(curveStepBefore)}
                           />
                         )}
                       />

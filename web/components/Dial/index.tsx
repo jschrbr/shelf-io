@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const actions = [
-  { icon: <EditIcon />, name: "Edit" },
+  { icon: <EditIcon />, name: "Edit", label: "Edit" },
   { icon: <AddIcon />, name: "Add" },
 ];
 
@@ -74,6 +74,7 @@ export default function SpeedDialTooltipOpen(props: any) {
       >
         {actions.map((action) => (
           <SpeedDialAction
+            FabProps={{ "aria-label": `${action.name}-button` }}
             key={action.name}
             icon={action.icon}
             tooltipTitle={action.name}

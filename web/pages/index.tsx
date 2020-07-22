@@ -20,7 +20,7 @@ function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = FirestoreService.streamParts({
+    const unsubscribe = FirestoreService.streamParts(0, {
       next: (querySnapshot) => {
         const updatedParts = querySnapshot.docs.map((docSnapshot) =>
           docSnapshot.data()
@@ -52,7 +52,7 @@ function Home() {
     </Fragment>
   ));
 
-  const loadCards = (count) => {
+  const loadCards = (count = 12) => {
     const loadSkeleton: any = [];
 
     for (let i = 0; i < count; i++) {
@@ -72,7 +72,7 @@ function Home() {
           </Grid>
 
           <CardStyle />
-        </Fragment>
+        </Fragment>,
       );
     }
     return loadSkeleton;
@@ -87,8 +87,7 @@ function Home() {
       <main>
         <Grid container spacing={2}>
           <ErrorMessage errorCode={errors}></ErrorMessage>
-
-          {loading ? loadCards(6) : partCards}
+          {loading ? loadCards() : partCards}
         </Grid>
       </main>
 

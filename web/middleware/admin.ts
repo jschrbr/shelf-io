@@ -24,10 +24,15 @@ export const streamPart = (id, observer) => {
     })
 };
 
-export const streamParts = (observer) => {
-    return db.collection('parts')
-        .orderBy('createdAt')
-        .onSnapshot(observer);
+export const streamParts = (limit, observer) => {
+    if (!limit) {
+        return db.collection('parts')
+            .orderBy('createdAt')
+            .onSnapshot(observer);
+    }
+    else {
+        return db.collection('parts').orderBy('createdAt').limit(limit).onSnapshot(observer);
+    }
 };
 
 
@@ -35,7 +40,7 @@ export const streamHistory = (limit, id, observer) => {
     if (!limit) {
         return id ? db.collection('parts').doc(id).collection("history").orderBy('updatedAt').onSnapshot(observer) : null
     } else {
-        return id ? db.collection('parts').doc(id).collection("history").orderBy('updatedAt').limit(limit).onSnapshot(observer) : null
+        return id ? db.collection('parts').doc(id).collection("history").orderBy('updatedAt', "desc").limit(limit).onSnapshot(observer) : null
     }
 
 };
