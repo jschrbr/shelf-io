@@ -7,12 +7,12 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "yarn deploy:server && yarn deploy:client",
     "deploy:server": "firebase deploy --only functions:graphql,functions:partAdjustment",
-    "deploy:client": "cd web && yarn deploy"
+    "deploy:client": "cd web && yarn deploy",
+    "dev:client": "cd web && yarn dev",
+    "setup": "cd ./functions && yarn && cd ../ && cd ./IoT && npm i && cd ../ && cd ./web && yarn"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "apollo-server": "^2.16.0"
-  }
+  "dependencies": {}
 }
