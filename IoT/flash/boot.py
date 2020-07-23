@@ -2,7 +2,7 @@
 # This file is executed on every boot (including wake-boot from deepsleep)
 import sys
 from machine import idle
-from network import STA_IF, WLAN
+from network import STA_IF, AP_IF, WLAN
 from auth import connectWifi
 from m5stack import lcd
 
@@ -10,8 +10,10 @@ lcd.hsb2rgb(0.5, 0.5, 0.5)
 
 sys.path[1] = '/flash/lib'
 wlan = WLAN(STA_IF)
+ap = WLAN(AP_IF)
 
 wlan.active(True)
+ap.active(True)
 cred = connectWifi()
 
 wlan.connect(cred[0], cred[1])

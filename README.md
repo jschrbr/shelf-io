@@ -14,7 +14,11 @@
 
 ### 🎡 [Playground](https://us-central1-shelf-io.cloudfunctions.net/graphql)
 
-> check the playground url is set to the /graphql endpoint
+> check the playground url is set to the /graphql endpoint 
+ 
+<div align="center">
+<img src="./images/Shelf-io.gif"/>
+</div>
 
 ## Install
 
